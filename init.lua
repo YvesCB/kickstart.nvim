@@ -184,6 +184,20 @@ require('lazy').setup({
   'tpope/vim-surround',
   { 'rrethy/vim-hexokinase',  run = 'make hexokinase' },
   'justinmk/vim-sneak',
+  'windwp/nvim-autopairs',
+
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    version = "*",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    },
+    config = function()
+      require('neo-tree').setup {}
+    end,
+  },
 
   require 'kickstart.plugins.autoformat',
   -- require 'kickstart.plugins.customkeys',
@@ -200,6 +214,7 @@ require('lazy').setup({
   { import = 'custom.plugins' },
 }, {})
 
+vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
@@ -510,6 +525,20 @@ cmp.setup {
   },
 }
 
+require('nvim-autopairs').setup {
+  check_ts = true,
+  ts_config = {
+    lua = { 'string', 'source' },
+    javascript = { 'string', 'template_string' },
+  },
+  disable_filetypes = { 'TelescopePrompt' },
+}
+
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
 -- CUSTOM KEYMAPS
 -- Cargo commands on demand
 vim.keymap.set('n', '<leader>cr', ':sp <cr> :term pwsh <cr> i cargo run <cr>', { silent = true })
@@ -529,6 +558,9 @@ vim.keymap.set('n', '<leader>tn', ':tabnew <cr>', { silent = true })
 vim.keymap.set('n', '<leader>tc', ':tabclose <cr>', { silent = true })
 vim.keymap.set('n', '<leader>tl', ':tabnext <cr>', { silent = true })
 vim.keymap.set('n', '<leader>th', ':tabprevious <cr>', { silent = true })
+
+-- Neotree
+vim.keymap.set('n', '<leader>ft', ':Neotree <cr>', { silent = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
