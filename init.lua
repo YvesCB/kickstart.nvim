@@ -64,11 +64,6 @@ vim.opt.rtp:prepend(lazypath)
 --    as they will be available in your neovim runtime.
 require('lazy').setup({
   -- NOTE: First, some plugins that don't require any configuration
-  -- MY PLUGINS:
-  'tpope/vim-surround',
-  'Townk/vim-autoclose',
-  { 'rrethy/vim-hexokinase', run = 'make hexokinase' },
-  'justinmk/vim-sneak',
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -103,7 +98,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',  opts = {} },
+  { 'folke/which-key.nvim',          opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -120,6 +115,7 @@ require('lazy').setup({
   },
 
   {
+    -- Theme inspired by Atom
     'rebelot/kanagawa.nvim',
     priority = 1000,
     config = function()
@@ -134,7 +130,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = true,
-        theme = 'auto',
+        theme = 'onedark',
         component_separators = '|',
         section_separators = '',
       },
@@ -185,7 +181,12 @@ require('lazy').setup({
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
+  'tpope/vim-surround',
+  { 'rrethy/vim-hexokinase',  run = 'make hexokinase' },
+  'justinmk/vim-sneak',
+
   require 'kickstart.plugins.autoformat',
+  -- require 'kickstart.plugins.customkeys',
   -- require 'kickstart.plugins.debug',
 
   -- NOTE: The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -202,19 +203,17 @@ require('lazy').setup({
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
--- Set highlight on search
-vim.o.hlsearch = false
-
--- Set winbar to show filename
+-- CUSTOM SETTINGS:
+vim.o.relativenumber = true
 vim.o.winbar = '%f'
-
--- Set cursor to new split by default
 vim.o.splitbelow = true
 vim.o.splitright = true
 
+-- Set highlight on search
+vim.o.hlsearch = false
+
 -- Make line numbers default
 vim.wo.number = true
-vim.o.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -302,7 +301,6 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
-require('nvim-treesitter.install').compilers = { 'clang' }
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
@@ -418,7 +416,6 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
-  nmap('<leader>F', vim.lsp.buf.format, '[F]ormat current buffer')
 end
 
 -- Enable the following language servers
@@ -510,14 +507,10 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'path' },
   },
 }
 
--- vim.api.nvim_set_hl(0, 'CmpItemAbbr', { fg = '#9cdcfe', bg = 'NONE' })
--- vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { fg = '#569cd6', bg = 'NONE' })
--- vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { fg = '#569cd6', bg = 'NONE' })
-
+-- CUSTOM KEYMAPS
 -- Cargo commands on demand
 vim.keymap.set('n', '<leader>cr', ':sp <cr> :term pwsh <cr> i cargo run <cr>', { silent = true })
 vim.keymap.set('n', '<leader>ct', ':sp <cr> :term pwsh <cr> i cargo test <cr>', { silent = true })
