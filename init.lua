@@ -67,6 +67,8 @@ require('lazy').setup({
   -- MY PLUGINS:
   'tpope/vim-surround',
   'Townk/vim-autoclose',
+  { 'rrethy/vim-hexokinase', run = 'make hexokinase' },
+  'justinmk/vim-sneak',
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -101,7 +103,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim',          opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -118,11 +120,10 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'tomasiser/vim-code-dark',
+    'rebelot/kanagawa.nvim',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'codedark'
+      vim.cmd.colorscheme 'kanagawa'
     end,
   },
 
@@ -203,6 +204,13 @@ require('lazy').setup({
 
 -- Set highlight on search
 vim.o.hlsearch = false
+
+-- Set winbar to show filename
+vim.o.winbar = '%f'
+
+-- Set cursor to new split by default
+vim.o.splitbelow = true
+vim.o.splitright = true
 
 -- Make line numbers default
 vim.wo.number = true
@@ -294,6 +302,7 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
+require('nvim-treesitter.install').compilers = { 'clang' }
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
@@ -409,6 +418,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+  nmap('<leader>F', vim.lsp.buf.format, '[F]ormat current buffer')
 end
 
 -- Enable the following language servers
@@ -503,6 +513,29 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+-- vim.api.nvim_set_hl(0, 'CmpItemAbbr', { fg = '#9cdcfe', bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'CmpItemAbbrMatch', { fg = '#569cd6', bg = 'NONE' })
+-- vim.api.nvim_set_hl(0, 'CmpItemAbbrMatchFuzzy', { fg = '#569cd6', bg = 'NONE' })
+
+-- Cargo commands on demand
+vim.keymap.set('n', '<leader>cr', ':sp <cr> :term pwsh <cr> i cargo run <cr>', { silent = true })
+vim.keymap.set('n', '<leader>ct', ':sp <cr> :term pwsh <cr> i cargo test <cr>', { silent = true })
+vim.keymap.set('n', '<leader>crr', ':sp <cr> :term pwsh <cr> i cargo run --release <cr>', { silent = true })
+vim.keymap.set('n', '<leader>cb', ':sp <cr> :term pwsh <cr> i cargo build <cr>', { silent = true })
+vim.keymap.set('n', '<leader>cbr', ':sp <cr> :term pwsh <cr> i cargo build --release <cr>', { silent = true })
+
+-- Navigating splits more easily
+vim.keymap.set('n', '<c-h>', '<c-w><c-h>', { silent = true })
+vim.keymap.set('n', '<c-j>', '<c-w><c-j>', { silent = true })
+vim.keymap.set('n', '<c-k>', '<c-w><c-k>', { silent = true })
+vim.keymap.set('n', '<c-l>', '<c-w><c-l>', { silent = true })
+
+-- Navigating tabs more easily
+vim.keymap.set('n', '<leader>tn', ':tabnew <cr>', { silent = true })
+vim.keymap.set('n', '<leader>tc', ':tabclose <cr>', { silent = true })
+vim.keymap.set('n', '<leader>tl', ':tabnext <cr>', { silent = true })
+vim.keymap.set('n', '<leader>th', ':tabprevious <cr>', { silent = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
