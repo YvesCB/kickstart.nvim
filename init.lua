@@ -183,8 +183,25 @@ require('lazy').setup({
   --       Uncomment any of the lines below to enable them.
   'tpope/vim-surround',
   { 'rrethy/vim-hexokinase',  run = 'make hexokinase' },
-  'justinmk/vim-sneak',
-  'windwp/nvim-autopairs',
+  {
+    'ggandor/leap.nvim',
+    config = function()
+      require('leap').add_default_mappings()
+    end
+  },
+  {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup {
+        check_ts = true,
+        ts_config = {
+          lua = { 'string', 'source' },
+          javascript = { 'string', 'template_string' },
+        },
+        disable_filetypes = { 'TelescopePrompt' },
+      }
+    end
+  },
 
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -318,7 +335,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
--- require('nvim-treesitter.install').compilers = { 'clang' }
+require('nvim-treesitter.install').compilers = { 'clang' }
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim' },
@@ -526,21 +543,16 @@ cmp.setup {
   },
 }
 
-require('nvim-autopairs').setup {
-  check_ts = true,
-  ts_config = {
-    lua = { 'string', 'source' },
-    javascript = { 'string', 'template_string' },
-  },
-  disable_filetypes = { 'TelescopePrompt' },
-}
-
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on(
   'confirm_done',
   cmp_autopairs.on_confirm_done()
 )
 -- CUSTOM KEYMAPS
+-- Opening and closing terminals
+vim.keymap.set('n', '<c-q>', ':sp <cr> :term pwsh <cr>i', { silent = true })
+vim.keymap.set('t', '<c-q>', '<c-\\><c-n> :q <cr>', { silent = true })
+
 -- Cargo commands on demand
 vim.keymap.set('n', '<leader>cr', ':sp <cr> :term pwsh <cr> i cargo run <cr>', { silent = true })
 vim.keymap.set('n', '<leader>ct', ':sp <cr> :term pwsh <cr> i cargo test <cr>', { silent = true })
