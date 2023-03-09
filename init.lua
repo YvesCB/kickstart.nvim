@@ -572,6 +572,10 @@ vim.keymap.set('n', '<leader>tc', ':tabclose <cr>', { silent = true })
 vim.keymap.set('n', '<leader>tl', ':tabnext <cr>', { silent = true })
 vim.keymap.set('n', '<leader>th', ':tabprevious <cr>', { silent = true })
 
+-- Navigating half screens
+vim.keymap.set('n', '<c-d>', '<c-d>zz', { silent = true })
+vim.keymap.set('n', '<c-u>', '<c-u>zz', { silent = true })
+
 -- Neotree
 vim.keymap.set('n', '<leader>ft', ':Neotree <cr>', { silent = true })
 
