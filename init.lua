@@ -549,8 +549,12 @@ cmp.event:on(
   cmp_autopairs.on_confirm_done()
 )
 -- CUSTOM KEYMAPS
+-- Spellcheck
+vim.keymap.set('n', '<leader>sy', ':setlocal spell<cr>', { silent = true, desc = 'Turn on spellcheck' })
+vim.keymap.set('n', '<leader>sn', ':set nospell<cr>', { silent = true, desc = 'Turn off spellcheck' })
+
 -- Opening and closing terminals
-vim.keymap.set('n', '<c-q>', ':sp <cr> :term pwsh <cr>i', { silent = true })
+vim.keymap.set('n', '<leader>co', ':sp <cr> :term pwsh <cr>i', { silent = true })
 vim.keymap.set('t', '<c-q>', '<c-\\><c-n> :q <cr>', { silent = true })
 
 -- Cargo commands on demand
