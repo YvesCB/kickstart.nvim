@@ -55,7 +55,7 @@ vim.keymap.set('n', '<leader>co', ':sp <cr> :term pwsh <cr>i', { silent = true, 
 vim.keymap.set('t', '<c-q>', '<c-\\><c-n> :q <cr>', { silent = true, desc = 'Close terminal' })
 
 -- Running code
-vim.keymap.set('n', '<leader>rp', ':sp <cr> :term pwsh <cr> i python ' + vim.api.nvim_buf_get_name(0) + '<cr>',
+vim.keymap.set('n', '<leader>rp', ":update <cr> :exec '!python' shellescape(@%, 1) <cr>",
   { silent = true, desc = 'Run Python' })
 
 -- Cargo commands on demand
