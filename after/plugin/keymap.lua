@@ -4,23 +4,25 @@ vim.keymap.set('n', '<leader>sy', ':setlocal spell<cr>', { silent = true, desc =
 vim.keymap.set('n', '<leader>sn', ':set nospell<cr>', { silent = true, desc = 'Turn off spellcheck' })
 
 -- Opening and closing terminals
-vim.keymap.set('n', '<leader>co', ':sp <cr> :term pwsh <cr>i', { silent = true, desc = 'Open pwsh Terminal' })
+vim.keymap.set('n', '<leader>ot', ':15 sp <cr> :term pwsh <cr>i', { silent = true, desc = 'Open pwsh Terminal' })
 vim.keymap.set('t', '<c-q>', '<c-\\><c-n> :q <cr>', { silent = true, desc = 'Close terminal' })
 
 -- Running code
-vim.keymap.set('n', '<leader>rp', ":update <cr> :exec '!python' shellescape(@%, 1) <cr>",
-  { silent = true, desc = 'Run Python' })
+vim.keymap.set('n', '<leader>rp', ":15 sp <cr> :term pwsh <cr>ipython " .. vim.api.nvim_buf_get_name(0) .. "<cr>",
+  { silent = true, desc = '[R]un [P]ython' })
+vim.keymap.set('n', '<leader>rl', ":15 sp <cr> :term pwsh <cr>ilua " .. vim.api.nvim_buf_get_name(0) .. "<cr>",
+  { silent = true, desc = '[R]un [L]ua' })
 
 -- Cargo commands on demand
-vim.keymap.set('n', '<leader>cr', ':sp <cr> :term pwsh <cr> i cargo run <cr>',
+vim.keymap.set('n', '<leader>cr', ':15 sp <cr> :term pwsh <cr> icargo run <cr>',
   { silent = true, desc = 'Execute cargo run in' })
-vim.keymap.set('n', '<leader>ct', ':sp <cr> :term pwsh <cr> i cargo test <cr>',
+vim.keymap.set('n', '<leader>ct', ':15sp <cr> :term pwsh <cr> icargo test <cr>',
   { silent = true, desc = 'Execute cargo test in' })
-vim.keymap.set('n', '<leader>crr', ':sp <cr> :term pwsh <cr> i cargo run --release <cr>',
+vim.keymap.set('n', '<leader>crr', ':15sp <cr> :term pwsh <cr> icargo run --release <cr>',
   { silent = true, desc = 'Execute cargo run release' })
-vim.keymap.set('n', '<leader>cb', ':sp <cr> :term pwsh <cr> i cargo build <cr>',
+vim.keymap.set('n', '<leader>cb', ':15sp <cr> :term pwsh <cr> icargo build <cr>',
   { silent = true, desc = 'Execute cargo build' })
-vim.keymap.set('n', '<leader>cbr', ':sp <cr> :term pwsh <cr> i cargo build --release <cr>',
+vim.keymap.set('n', '<leader>cbr', ':15sp <cr> :term pwsh <cr> icargo build --release <cr>',
   { silent = true, desc = 'Execute cargo build release' })
 
 -- Navigating splits more easily
