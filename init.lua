@@ -146,6 +146,7 @@ require('lazy').setup({
         'lukas-reineke/indent-blankline.nvim',
         -- Enable `lukas-reineke/indent-blankline.nvim`
         -- See `:help indent_blankline.txt`
+        main = 'ibl',
         opts = {
             char = '┊',
             show_trailing_blankline_indent = false,
@@ -260,7 +261,7 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 require('nvim-treesitter.install').compilers = { 'clang' }
 require('nvim-treesitter.configs').setup {
     -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = { 'c', 'cpp', 'lua', 'python', 'rust', 'typescript', 'vim', 'svelte', 'css',
+    ensure_installed = { 'lua', 'python', 'rust', 'typescript', 'vim', 'svelte', 'css',
         'html' },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)

@@ -3,12 +3,20 @@ local function run_code_in_term()
     local enter_key = vim.api.nvim_replace_termcodes('<CR>', true, false, true)
     local exit_term_mode = vim.api.nvim_replace_termcodes('<C-\\><C-n>', true, false, true)
 
+
     -- This opens the terminal and returns the bufnr of the opened buffer
     local function run_code(command)
-        vim.cmd([[
-            bo 15 sp
-            terminal pwsh
-        ]])
+        if vim.loop.os_uname().sysname == "Linux" then
+            vim.cmd([[
+                bo 15 sp
+                terminal zsh
+            ]])
+        elseif vim.loop.os_uname().sysname == "Windows" then
+            vim.cmd([[
+                bo 15 sp
+                terminal pwsh
+            ]])
+        end
         vim.api.nvim_feedkeys('i' .. command .. enter_key, 'n', true)
         vim.api.nvim_feedkeys(exit_term_mode, 'n', true)
         vim.api.nvim_feedkeys('G', 'n', true)
