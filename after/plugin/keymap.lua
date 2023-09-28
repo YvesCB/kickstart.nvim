@@ -1,22 +1,28 @@
+local os = vim.loop.os_uname().sysname
+local termcommand = ':term pwsh <cr>i'
 -- CUSTOM KEYMAPS
 -- Spellcheck
 vim.keymap.set('n', '<leader>sy', ':setlocal spell<cr>', { silent = true, desc = '[S]pellcheck [Y]es' })
 vim.keymap.set('n', '<leader>sn', ':set nospell<cr>', { silent = true, desc = '[S]spellcheck [N]o' })
 
+if os == "Linux" then
+  termcommand = ':term zsh <cr> i clear <cr>'
+end
+
 -- Opening and closing terminals
-vim.keymap.set('n', '<leader>ot', ':15 sp <cr> :term pwsh <cr>i', { silent = true, desc = 'Open pwsh Terminal' })
+vim.keymap.set('n', '<leader>ot', ':15 sp <cr>' .. termcommand, { silent = true, desc = 'Open pwsh Terminal' })
 vim.keymap.set('t', '<c-q>', '<c-\\><c-n> :q <cr>', { silent = true, desc = 'Close terminal' })
 
 -- Cargo commands on demand
-vim.keymap.set('n', '<leader>cr', ':15 sp <cr> :term pwsh <cr> icargo run <cr>',
-  { silent = true, desc = 'Execute cargo run in' })
-vim.keymap.set('n', '<leader>ct', ':15sp <cr> :term pwsh <cr> icargo test <cr>',
-  { silent = true, desc = 'Execute cargo test in' })
-vim.keymap.set('n', '<leader>crr', ':15sp <cr> :term pwsh <cr> icargo run --release <cr>',
+vim.keymap.set('n', '<leader>cr', ':15 sp <cr>' .. termcommand .. 'cargo run <cr>',
+  { silent = true, desc = 'Execute cargo run' })
+vim.keymap.set('n', '<leader>ct', ':15sp <cr>' .. termcommand .. 'cargo test <cr>',
+  { silent = true, desc = 'Execute cargo test' })
+vim.keymap.set('n', '<leader>crr', ':15sp <cr>' .. termcommand .. 'cargo run --release <cr>',
   { silent = true, desc = 'Execute cargo run release' })
-vim.keymap.set('n', '<leader>cb', ':15sp <cr> :term pwsh <cr> icargo build <cr>',
+vim.keymap.set('n', '<leader>cb', ':15sp <cr>' .. termcommand .. 'cargo build <cr>',
   { silent = true, desc = 'Execute cargo build' })
-vim.keymap.set('n', '<leader>cbr', ':15sp <cr> :term pwsh <cr> icargo build --release <cr>',
+vim.keymap.set('n', '<leader>cbr', ':15sp <cr>' .. termcommand .. 'cargo build --release <cr>',
   { silent = true, desc = 'Execute cargo build release' })
 
 -- Navigating tabs more easily
@@ -34,3 +40,6 @@ vim.keymap.set('n', '<leader>ft', ':Neotree <cr>', { silent = true, desc = 'Open
 
 -- Search and replace
 vim.keymap.set('n', '<leader>sr', ':SearchReplace <cr>', { silent = true, desc = '[S]earch and [R]eplace.' })
+
+-- Run code
+vim.keymap.set('n', '<leader>rc', ':RunCode <cr>', { silent = true, desc = '[R]un [C]ode' })

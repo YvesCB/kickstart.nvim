@@ -17,7 +17,8 @@ local function run_code_in_term()
                 terminal pwsh
             ]])
         end
-        vim.api.nvim_feedkeys('i' .. command .. enter_key, 'n', true)
+        vim.api.nvim_feedkeys('i' .. 'clear' .. enter_key, 'n', true)
+        vim.api.nvim_feedkeys(command .. enter_key, 'n', true)
         vim.api.nvim_feedkeys(exit_term_mode, 'n', true)
         vim.api.nvim_feedkeys('G', 'n', true)
     end
