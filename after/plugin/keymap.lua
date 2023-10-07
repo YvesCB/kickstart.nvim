@@ -1,5 +1,6 @@
 local os = vim.loop.os_uname().sysname
 local termcommand = ':term pwsh <cr>i'
+local termsplit = ':botright :15 split <cr>'
 -- CUSTOM KEYMAPS
 -- Spellcheck
 vim.keymap.set('n', '<leader>sy', ':setlocal spell<cr>', { silent = true, desc = '[S]pellcheck [Y]es' })
@@ -10,19 +11,19 @@ if os == "Linux" then
 end
 
 -- Opening and closing terminals
-vim.keymap.set('n', '<leader>ot', ':15 sp <cr>' .. termcommand, { silent = true, desc = 'Open pwsh Terminal' })
+vim.keymap.set('n', '<leader>ot', termsplit .. termcommand, { silent = true, desc = 'Open pwsh Terminal' })
 vim.keymap.set('t', '<c-q>', '<c-\\><c-n> :q <cr>', { silent = true, desc = 'Close terminal' })
 
 -- Cargo commands on demand
-vim.keymap.set('n', '<leader>cr', ':15 sp <cr>' .. termcommand .. 'cargo run <cr>',
+vim.keymap.set('n', '<leader>cr', termsplit .. termcommand .. 'cargo run <cr>',
   { silent = true, desc = 'Execute cargo run' })
-vim.keymap.set('n', '<leader>ct', ':15sp <cr>' .. termcommand .. 'cargo test <cr>',
+vim.keymap.set('n', '<leader>ct', termsplit .. termcommand .. 'cargo test <cr>',
   { silent = true, desc = 'Execute cargo test' })
-vim.keymap.set('n', '<leader>crr', ':15sp <cr>' .. termcommand .. 'cargo run --release <cr>',
+vim.keymap.set('n', '<leader>crr', termsplit .. termcommand .. 'cargo run --release <cr>',
   { silent = true, desc = 'Execute cargo run release' })
-vim.keymap.set('n', '<leader>cb', ':15sp <cr>' .. termcommand .. 'cargo build <cr>',
+vim.keymap.set('n', '<leader>cb', termsplit .. termcommand .. 'cargo build <cr>',
   { silent = true, desc = 'Execute cargo build' })
-vim.keymap.set('n', '<leader>cbr', ':15sp <cr>' .. termcommand .. 'cargo build --release <cr>',
+vim.keymap.set('n', '<leader>cbr', termsplit .. termcommand .. 'cargo build --release <cr>',
   { silent = true, desc = 'Execute cargo build release' })
 
 -- Navigating tabs more easily
