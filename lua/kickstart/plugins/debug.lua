@@ -5,6 +5,14 @@
 -- Primarily focused on configuring the debugger for Go, but can
 -- be extended to other languages as well. That's why it's called
 -- kickstart.nvim and not kitchen-sink.nvim ;)
+local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.10.0-universal/'
+local codelldb_path = extension_path .. 'adapter/codelldb'
+local this_os = vim.loop.os_uname().sysname;
+
+-- The path in windows is different
+if this_os:find "Windows" then
+  codelldb_path = extension_path .. "adapter\\codelldb.exe"
+end
 
 return {
   -- NOTE: Yes, you can install new plugins here!
@@ -36,13 +44,28 @@ return {
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
-        'delve',
+        'codelldb',
       },
-    }
+      -- You can provide additional configuration to the handlers,
+      -- see mason-nvim-dap README for more information
+      handlers = {
+        codelldb = function(config)
+          config.adapters = {
+            type = "server",
+            port = "${port}",
+            executable = {
+              command = codelldb_path,
+              args = { "--port", "${port}" },
+              -- On windows you may have to uncomment this:
+              -- detached = false,
+            },
+          }
+          require('mason-nvim-dap').default_setup(config)
+        end
+      },
 
-    -- You can provide additional configuration to the handlers,
-    -- see mason-nvim-dap README for more information
-    require('mason-nvim-dap').setup_handlers()
+      automatic_installation = false,
+    }
 
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<F5>', dap.continue)
