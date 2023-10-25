@@ -100,9 +100,12 @@ require('lazy').setup({
         'hrsh7th/nvim-cmp',
         dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
     },
+    {
+        'hrsh7th/cmp-path',
+    },
 
     -- Useful plugin to show you pending keybinds.
-    { 'folke/which-key.nvim',          opts = {} },
+    { 'folke/which-key.nvim',  opts = {} },
     {
         -- Adds git releated signs to the gutter, as well as utilities for managing changes
         'lewis6991/gitsigns.nvim',
@@ -146,18 +149,14 @@ require('lazy').setup({
         'lukas-reineke/indent-blankline.nvim',
         -- Enable `lukas-reineke/indent-blankline.nvim`
         -- See `:help indent_blankline.txt`
-        main = 'ibl',
-        opts = {
-            char = '┊',
-            show_trailing_blankline_indent = false,
-        },
     },
 
     -- "gc" to comment visual regions/lines
-    { 'numToStr/Comment.nvim',         opts = {} },
+    { 'numToStr/Comment.nvim', opts = {} },
 
     -- Fuzzy Finder (files, lsp, etc)
-    { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+    { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' }
+    },
 
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
     -- Only load if `make` is available. Make sure you have the system
@@ -188,7 +187,7 @@ require('lazy').setup({
     --       Uncomment any of the lines below to enable them.
 
     require 'kickstart.plugins.autoformat',
-    -- require 'kickstart.plugins.debug',
+    require 'kickstart.plugins.debug',
 
     -- NOTE: The import below automatically adds your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
     --    You can use this folder to prevent any conflicts with this init.lua if you're interested in keeping
@@ -201,6 +200,7 @@ require('lazy').setup({
     { import = 'custom.plugins' },
 }, {})
 
+require('ibl').setup();
 
 -- [[ Basic Keymaps ]]
 
@@ -260,6 +260,9 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.install').compilers = { 'clang' }
 require('nvim-treesitter.configs').setup {
+    modules = {},
+    sync_install = true,
+    ignore_install = {},
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = { 'lua', 'python', 'rust', 'typescript', 'vim', 'svelte', 'css',
         'html' },
@@ -296,20 +299,20 @@ require('nvim-treesitter.configs').setup {
             enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
-                [']m'] = '@function.outer',
-                [']]'] = '@class.outer',
+                [']f'] = '@function.outer',
+                [']c'] = '@class.outer',
             },
             goto_next_end = {
-                [']M'] = '@function.outer',
-                [']['] = '@class.outer',
+                [']F'] = '@function.outer',
+                [']C'] = '@class.outer',
             },
             goto_previous_start = {
-                ['[m'] = '@function.outer',
-                ['[['] = '@class.outer',
+                ['[f'] = '@function.outer',
+                ['[c'] = '@class.outer',
             },
             goto_previous_end = {
-                ['[M'] = '@function.outer',
-                ['[]'] = '@class.outer',
+                ['[F'] = '@function.outer',
+                ['[C'] = '@class.outer',
             },
         },
         swap = {
@@ -435,9 +438,13 @@ cmp.setup {
             luasnip.lsp_expand(args.body)
         end,
     },
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
+    },
     mapping = cmp.mapping.preset.insert {
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-l>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-;>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete {},
         ['<CR>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
@@ -462,10 +469,12 @@ cmp.setup {
         --   end
         -- end, { 'i', 's' }),
     },
-    sources = {
+    sources = cmp.config.sources({
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-    },
+    }, {
+        { name = 'buffer' },
+    }),
 }
 
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
