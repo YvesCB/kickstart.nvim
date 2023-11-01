@@ -11,7 +11,7 @@ local function run_code_in_term()
                 bo 15 sp
                 terminal zsh
             ]])
-        elseif vim.loop.os_uname().sysname == "Windows" then
+        elseif vim.loop.os_uname().sysname == "Windows_NT" then
             vim.cmd([[
                 bo 15 sp
                 terminal pwsh

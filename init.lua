@@ -397,6 +397,10 @@ local servers = {
             telemetry = { enable = false },
         },
     },
+    emmet_ls = {
+        filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "pug",
+            "typescriptreact", "vue" },
+    }
 }
 
 -- Setup neovim lua configuration
