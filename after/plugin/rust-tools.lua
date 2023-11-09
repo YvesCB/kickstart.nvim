@@ -7,7 +7,7 @@ local liblldb_path = extension_path .. 'lldb/lib/liblldb'
 local this_os = vim.loop.os_uname().sysname;
 
 -- The path in windows is different
-if this_os:find "Windows" then
+if this_os:find "Windows_NT" then
   codelldb_path = extension_path .. "adapter\\codelldb.exe"
   liblldb_path = extension_path .. "lldb\\bin\\liblldb.dll"
 else

@@ -258,7 +258,9 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
-require('nvim-treesitter.install').compilers = { 'clang' }
+if vim.loop.os_uname().sysname == "Windows_NT" then
+    require('nvim-treesitter.install').compilers = { 'clang' }
+end
 require('nvim-treesitter.configs').setup {
     modules = {},
     sync_install = true,
