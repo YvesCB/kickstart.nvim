@@ -44,3 +44,9 @@ vim.keymap.set('n', '<leader>sr', ':SearchReplace <cr>', { silent = true, desc =
 
 -- Run code
 vim.keymap.set('n', '<leader>rc', ':RunCode <cr>', { silent = true, desc = '[R]un [C]ode' })
+
+-- Window resizig
+vim.keymap.set('n', '<a-h>', ':vert :res +5<cr>', { silent = true, desc = 'Decrease width' })
+vim.keymap.set('n', '<a-k>', ':res -5<cr>', { silent = true, desc = 'Increase height' })
+vim.keymap.set('n', '<a-j>', ':res +5<cr>', { silent = true, desc = 'Decrease height' })
+vim.keymap.set('n', '<a-l>', ':vert :res -5<cr>', { silent = true, desc = 'Increase width' })

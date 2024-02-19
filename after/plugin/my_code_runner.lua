@@ -29,6 +29,8 @@ local function run_code_in_term()
         run_code('lua ' .. vim.api.nvim_buf_get_name(0))
     elseif filetype == 'rust' then
         run_code('cargo run')
+    elseif filetype == 'cs' then
+        run_code('dotnet run')
     else
         print("Unsuportet language: " .. filetype)
     end
