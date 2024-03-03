@@ -6,7 +6,7 @@ vim.cmd([[
 	let g:neo_tree_remove_legacy_commands = 1
 
 	let g:vimtex_view_method = 'zathura'
-	let g:vimtex_compiler_method = 'xelatex'
+	let g:vimtex_compiler_method = 'latexmk'
 ]])
 
 return {
